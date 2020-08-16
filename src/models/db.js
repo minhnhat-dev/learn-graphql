@@ -38,6 +38,10 @@ mongoose.connection.on('disconnected', function () {
     console.info('Mongoose default connection disconnected');
   });
 
+mongoose.set("debug", (collectionName, method, query, doc) => {
+    console.log(`${collectionName}.${method}`, JSON.stringify(query), doc);
+});
+
   // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', function () {
     mongoose.connection.close(function () {

@@ -10,7 +10,5 @@ module.exports = {
     ecmaVersion: 11,
   },
   rules: {
-    'global-require': 0,
-    'linebreak-style': 0,
   },
 };

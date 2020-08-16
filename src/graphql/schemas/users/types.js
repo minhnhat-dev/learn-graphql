@@ -7,6 +7,7 @@ const UserType = gql`
     email: String
     totalPosts: String
     active: Boolean
+    posts: [Post]
   }
 
   type UserAuth {

@@ -1,6 +1,6 @@
 'use strict'
 const UserSchema = require('./schemas/users/index');
-
+const PostSchema = require('./schemas/posts');
 const baseSchemas = {};
 baseSchemas.types = `
   type Query {
@@ -17,7 +17,8 @@ baseSchemas.types = `
 baseSchemas.resolvers = {};
 const schemas = [
   baseSchemas,
-  UserSchema
+  UserSchema,
+  PostSchema
 ]
 
 const typeDefs = schemas.map((schema) => schema.types);

@@ -17,9 +17,9 @@ const findOne = async (query = {}, options = {}) => {
   return UsersModel.findOne(query).lean().exec();
 };
 
-const find = async (filter = {}, options) => {
-  const { skip, limit } = options;
-  return UsersModel.find(filter).setOptions({ skip, limit }).lean().exec();
+const find = async (filter = {}, options = {}) => {
+  const { skip, limit, select } = options;
+  return UsersModel.find(filter).select(select).skip(skip).limit(limit).lean().exec();
 };
 
 const getUserByToken = async (token) => {

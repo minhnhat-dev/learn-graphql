@@ -5,7 +5,8 @@ const GraphQL = require('./graphql');
 const Models = require('./models');
 const Services = require('./services');
 const ErrorHandler = require('./helpers/errorHandler');
-const {formatError} = require('apollo-errors')
+const {formatError} = require('apollo-errors');
+const dataLoaders = require('./data-loaders');
 
 const server = new ApolloServer({
   typeDefs: GraphQL.typeDefs,
@@ -15,10 +16,14 @@ const server = new ApolloServer({
       Models,
       Services,
       req,
+      dataLoaders,
     };
   },
   formatError: (error) => {
     return formatError(error)
+  },
+  cacheControl: {
+    defaultMaxAge: 5,
   },
   introspection: true,
   playground: true,
