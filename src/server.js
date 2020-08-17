@@ -7,11 +7,15 @@ const Services = require('./services');
 const ErrorHandler = require('./helpers/errorHandler');
 const {formatError} = require('apollo-errors');
 const dataLoaders = require('./data-loaders');
+const http = require('http');
 
 const server = new ApolloServer({
   typeDefs: GraphQL.typeDefs,
   resolvers: GraphQL.resolvers,
-  context: async ({ req }) => {
+  context: async ({ req, connection }) => {
+    if(connection) {
+      return connection.context;
+    }
     return {
       Models,
       Services,
@@ -39,12 +43,15 @@ server.applyMiddleware({
   path: '/',
 });
 
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 // Here you set the PORT and IP of the server
 const port = config.PORT || 8001;
 const ip = config.IP || '127.0.0.1';
 
-app.listen({ port, ip }, () =>
-  logger.info(`🚀 Server ready at http://${ip}:${port}${server.graphqlPath}`),
+httpServer.listen({ port, ip }, () =>
+  console.log(`🚀 Server ready at http://${ip}:${port}${server.graphqlPath}`),
+  console.log(`Subscriptions ready at ws://${ip}:${port}${server.subscriptionsPath}`)
 );
 
 module.exports = app;

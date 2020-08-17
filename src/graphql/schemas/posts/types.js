@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server-express');
 
 const PostTypes = gql`
+
     type Post {
         _id: ID
         content: String
